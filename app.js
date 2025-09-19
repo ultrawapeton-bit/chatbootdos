@@ -125,7 +125,7 @@ const main = async () => {
         //const adapterDB = new MockAdapter()
         //const MongoAdapter = require('@bot-whatsapp/database/mongo')
         const adapterDB = new MongoAdapter({
-            dbUri: process.env.MONGO_DB_URI,
+            mongoUri: process.env.MONGO_DB_URI,
             dbName: "youtubetest"
 
         })
