@@ -122,34 +122,39 @@ const menuFlow = addKeyword("Menu").addAnswer(
 
 const main = async () => {
     try {
-        //const adapterDB = new MockAdapter()
-        //const MongoAdapter = require('@bot-whatsapp/database/mongo')
+        // Verificar la URI de Mongo
+        console.log("MONGO_DB_URI:", process.env.MONGO_DB_URI)
+        if (!process.env.MONGO_DB_URI) throw new Error("La variable MONGO_DB_URI no está definida")
+
+        // Probar conexión con mongoose antes de MongoAdapter
+        const mongoose = require('mongoose')
+        await mongoose.connect(process.env.MONGO_DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+        console.log("✅ MongoDB conectado correctamente")
+
+        // MongoAdapter
         const adapterDB = new MongoAdapter({
             mongoUri: process.env.MONGO_DB_URI,
             dbName: "youtubetest"
-
         })
+
+        // Crear flujo y provider
         const adapterFlow = createFlow([flowWelcome, menuFlow, flowMenuRest, flowReservar, flowConsultas, flowVoice])
         const adapterProvider = createProvider(BaileysProvider)
 
+        // Crear bot
         createBot({
             flow: adapterFlow,
             provider: adapterProvider,
             database: adapterDB,
         })
 
-        QRPortalWeb({ port: 3001 })
+        QRPortalWeb({ port: process.env.PORT || 3001 })
+
     } catch (error) {
-        console.error("Error en main():", error)
+        console.error("❌ Error en main():", error)
     }
 }
 
-// Captura errores de promesas no manejadas globalmente
-process.on('unhandledRejection', (reason, promise) => {
-    console.error("Unhandled Rejection at:", promise, "reason:", reason)
-})
-
-main()
 
 /* const main = async () => {
     const adapterDB = new MockAdapter()
