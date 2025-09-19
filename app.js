@@ -123,7 +123,7 @@ const menuFlow = addKeyword("Menu").addAnswer(
 const main = async () => {
     try {
         //const adapterDB = new MockAdapter()
-        const MongoAdapter = require('@bot-whatsapp/database/mongo')
+        //const MongoAdapter = require('@bot-whatsapp/database/mongo')
         const adapterDB = new MongoAdapter({
             dbUri: process.env.MONGO_DB_URI,
             dbName: "youtubetest"
