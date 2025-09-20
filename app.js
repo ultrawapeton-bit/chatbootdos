@@ -148,7 +148,7 @@ const main = async () => {
             database: adapterDB,
         })
 
-        QRPortalWeb({ port: process.env.PORT || 3001 })
+        QRPortalWeb({ port: 3001 })
 
     } catch (error) {
         console.error("❌ Error en main():", error)
